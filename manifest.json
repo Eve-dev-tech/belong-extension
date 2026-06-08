@@ -19,11 +19,11 @@
   },
 
   "chrome_url_overrides": {
-    "newtab": "_newtab/index.html"
+    "newtab": "newtab/index.html"
   },
 
   "background": {
-    "service_worker": "_background/service-worker.js"
+    "service_worker": "background/service-worker.js"
   },
 
   "permissions": [
