@@ -1,4 +1,4 @@
-/* _background/service-worker.js */
+/* background/service-worker.js */
 importScripts('../shared/storage.js');
 
 var S = BelongStorage;
