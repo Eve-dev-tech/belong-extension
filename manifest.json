@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "Belong — Workplace Wellbeing",
+  "version": "1.0.0",
+  "description": "Breathing exercises, desk movements, focus timers and break reminders. Private, calm, local.",
+
+  "icons": {
+    "16":  "assets/icons/icon16.png",
+    "48":  "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "assets/icons/icon16.png",
+      "48": "assets/icons/icon48.png"
+    }
+  },
+
+  "chrome_url_overrides": {
+    "newtab": "_newtab/index.html"
+  },
+
+  "background": {
+    "service_worker": "_background/service-worker.js"
+  },
+
+  "permissions": [
+    "storage",
+    "alarms",
+    "notifications",
+    "tabs",
+    "activeTab"
+  ],
+
+  "host_permissions": [],
+
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:"
+  }
+}

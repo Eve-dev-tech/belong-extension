@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Belong</title>
+<link rel="stylesheet" href="../shared/belong.css">
+<style>
+  body {
+    width: 320px;
+    min-height: 380px;
+    padding: 0;
+    background: #F7F3EE;
+  }
+
+  /* Header */
+  .popup-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px 12px;
+    background: white;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .logo { display: flex; align-items: center; gap: 8px; }
+  .logo-mark {
+    width: 28px; height: 28px;
+    background: var(--sage-400);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-mark svg { width: 16px; height: 16px; }
+  .logo-name { font-family: var(--font-display); font-size: 15px; color: var(--sage-500); }
+
+  /* Body */
+  .popup-body { padding: 14px 14px; display: flex; flex-direction: column; gap: 10px; }
+
+  /* Greeting */
+  .popup-greet {
+    font-family: var(--font-display);
+    font-size: 17px;
+    color: var(--ink-800);
+    text-align: center;
+    padding: 4px 0;
+  }
+
+  /* Stats grid — HCD: scannable at a glance */
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-card {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--r-m);
+    padding: 12px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--color-hint);
+  }
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: 24px;
+    color: var(--ink-800);
+    line-height: 1;
+  }
+  .stat-sub { font-size: 11px; color: var(--color-muted); }
+
+  /* Points highlight */
+  .pts-highlight {
+    background: var(--amber-50);
+    border: 1px solid var(--amber-100);
+  }
+  .pts-highlight .stat-value { color: var(--amber-400); }
+
+  /* Time on sites */
+  .sites-card {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--r-m);
+    padding: 12px;
+  }
+  .sites-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .sites-title {
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .06em;
+    color: var(--color-hint);
+  }
+
+  .site-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .site-row:last-child { margin-bottom: 0; }
+  .site-bar-wrap {
+    flex: 1;
+    height: 5px;
+    background: var(--ink-100);
+    border-radius: var(--r-pill);
+    overflow: hidden;
+  }
+  .site-bar { height: 100%; background: var(--sage-300); border-radius: var(--r-pill); }
+  .site-name {
+    font-size: 12px; color: var(--ink-500);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    max-width: 120px; flex-shrink: 0;
+    min-width: 80px;
+  }
+  .site-dur { font-size: 12px; font-weight: 600; color: var(--sage-500); flex-shrink: 0; }
+  .sites-empty { font-size: 12px; color: var(--color-hint); text-align: center; padding: 8px 0; }
+
+  /* Quick actions */
+  .quick-actions { display: flex; gap: 6px; }
+  .quick-btn {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: var(--r-m);
+    padding: 10px 6px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all var(--dur-fast);
+    text-decoration: none;
+  }
+  .quick-btn:hover {
+    border-color: var(--sage-300);
+    background: var(--sage-50);
+    transform: translateY(-1px);
+  }
+  .quick-ico { font-size: 18px; }
+  .quick-lbl { font-size: 10px; color: var(--color-muted); font-weight: 500; }
+
+  /* CTA */
+  .open-btn {
+    display: block; width: 100%; text-align: center; text-decoration: none;
+    background: var(--sage-400); color: white;
+    border-radius: var(--r-pill); padding: 12px;
+    font-family: var(--font-body); font-size: 14px; font-weight: 600;
+    transition: background var(--dur-fast);
+    border: none; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(107,158,120,.25);
+  }
+  .open-btn:hover { background: var(--sage-500); }
+</style>
+</head>
+<body>
+
+<div class="popup-header">
+  <div class="logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 3C12 3 5 7 5 13C5 17 8.1 20 12 20C15.9 20 19 17 19 13C19 7 12 3 12 3Z" fill="white"/>
+        <path d="M12 6.5V17.5M12 12L9 9.5M12 14L15 11.5" stroke="rgba(107,158,120,.4)" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="logo-name">Belong</span>
+  </div>
+  <div class="pts-badge">⭐ <span id="pts">0</span> pts</div>
+</div>
+
+<div class="popup-body">
+
+  <div class="popup-greet" id="greet">Good morning 👋</div>
+
+  <!-- Stats at a glance -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Sessions today</div>
+      <div class="stat-value" id="sessions-val">0</div>
+      <div class="stat-sub" id="sessions-sub">Keep going!</div>
+    </div>
+    <div class="stat-card pts-highlight">
+      <div class="stat-label">Points total</div>
+      <div class="stat-value" id="pts-large">0</div>
+      <div class="stat-sub">⭐ this week</div>
+    </div>
+  </div>
+
+  <!-- Site time -->
+  <div class="sites-card">
+    <div class="sites-header">
+      <div class="sites-title">Time on sites</div>
+    </div>
+    <div id="sites-list">
+      <div class="sites-empty">Browsing data appears here as you work</div>
+    </div>
+  </div>
+
+  <!-- Quick actions — HCD: common tasks in 1 click -->
+  <div class="quick-actions">
+    <a href="../_newtab/index.html" target="_blank" class="quick-btn" aria-label="Start breathing">
+      <span class="quick-ico">🫁</span>
+      <span class="quick-lbl">Breathe</span>
+    </a>
+    <a href="../_newtab/index.html" target="_blank" class="quick-btn" aria-label="Start exercise">
+      <span class="quick-ico">🧘</span>
+      <span class="quick-lbl">Exercise</span>
+    </a>
+    <a href="../_newtab/index.html" target="_blank" class="quick-btn" aria-label="Open focus timer">
+      <span class="quick-ico">🎯</span>
+      <span class="quick-lbl">Focus</span>
+    </a>
+    <a href="../_newtab/index.html" target="_blank" class="quick-btn" aria-label="Set break reminder">
+      <span class="quick-ico">⏰</span>
+      <span class="quick-lbl">Breaks</span>
+    </a>
+  </div>
+
+  <a href="../_newtab/index.html" target="_blank" class="open-btn">
+    Open Belong →
+  </a>
+
+</div>
+
+<script src="../shared/storage.js"></script>
+<script>
+  async function init() {
+    var S = BelongStorage;
+    var profile = await S.getUserProfile();
+    var pts     = await S.getPoints();
+    var log     = await S.getSessionLog();
+    var time    = await S.getTimeData();
+
+    // Greeting
+    var h = new Date().getHours();
+    var t = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+    var greet = document.getElementById('greet');
+    if (greet) greet.textContent = profile.name ? (t + ', ' + profile.name + ' 👋') : (t + ' 👋');
+
+    // Points
+    document.getElementById('pts').textContent     = pts;
+    document.getElementById('pts-large').textContent = pts;
+
+    // Sessions today
+    var today      = new Date().toDateString();
+    var todaySess  = log.filter(function(s){ return s.completedAt && new Date(s.completedAt).toDateString() === today; });
+    var sessVal    = document.getElementById('sessions-val');
+    var sessSub    = document.getElementById('sessions-sub');
+    if (sessVal) sessVal.textContent = todaySess.length;
+    if (sessSub) {
+      var msgs = ['Start your first!', 'Great start!', 'On a roll!', 'Impressive!', 'Wellness champion!'];
+      sessSub.textContent = msgs[Math.min(todaySess.length, msgs.length - 1)];
+    }
+
+    // Site time — mini bar chart
+    var entries = Object.entries(time).sort(function(a,b){ return b[1] - a[1]; }).slice(0, 4);
+    var list = document.getElementById('sites-list');
+    if (!list) return;
+
+    if (entries.length === 0) {
+      list.innerHTML = '<div class="sites-empty">Browsing data appears here as you work</div>';
+    } else {
+      var maxSecs = entries[0][1];
+      list.innerHTML = entries.map(function(e) {
+        var secs = e[1];
+        var mins = Math.floor(secs / 60);
+        var dur  = mins >= 60 ? Math.floor(mins/60) + 'h ' + (mins%60) + 'm' : mins > 0 ? mins + 'm' : secs + 's';
+        var pct  = Math.round((secs / maxSecs) * 100);
+        return '<div class="site-row">' +
+          '<div class="site-name">' + e[0] + '</div>' +
+          '<div class="site-bar-wrap"><div class="site-bar" style="width:' + pct + '%"></div></div>' +
+          '<div class="site-dur">' + dur + '</div>' +
+        '</div>';
+      }).join('');
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>
